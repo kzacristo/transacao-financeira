@@ -1,8 +1,15 @@
 <?php 
 
-Route::get('/transacoes', [TransacaoController::class, 'index']);
-Route::post('/transacoes', [TransacaoController::class, 'store']);
-Route::get('/transacoes/{id}', [TransacaoController::class, 'show']);
-Route::put('/transacoes/{id}', [TransacaoController::class, 'update']);
-Route::delete('/transacoes/{id}', [TransacaoController::class, 'destroy']);
-Route::get('/resumo', [TransacaoController::class, 'resumo']);
+use App\Http\Controllers\AuthController;
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+// Rotas protegidas por JWT
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::get('user', [AuthController::class, 'getUser']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::resource('transacoes', TransacaoController::class);
+    Route::get('resumo', [TransacaoController::class, 'resumo']);
+});
+

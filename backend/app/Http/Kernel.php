@@ -1,0 +1,1 @@
+'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
